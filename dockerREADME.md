@@ -72,6 +72,68 @@ docker container exec <container ID> ls
 
 
 
+Doing More With Docker Images
+Image creation from a container
+
+docker container run -it ubuntu bash
+
+![image](https://github.com/user-attachments/assets/ce91da00-379c-4dac-a222-8a2950aa4b99)
+
+apt-get update
+
+![image](https://github.com/user-attachments/assets/0aec3b4f-73f3-45f5-a559-c78abe83dc84)
+
+apt-get install -y figlet
+
+![image](https://github.com/user-attachments/assets/56a103a9-3064-47d3-a813-73126327db54)
+
+figlet "hello docker"
+
+![image](https://github.com/user-attachments/assets/6130f3f3-9843-4901-9b2d-f1e21d9da588)
+
+exit
+
+![image](https://github.com/user-attachments/assets/9ffaba8c-faf5-46a5-8abf-83de3ecd9ae4)
+
+docker container diff <container ID>
+
+![image](https://github.com/user-attachments/assets/8c23979d-01e6-48a3-96ba-8ae6e23ac8ce)
+
+docker container commit CONTAINER_ID
+
+![image](https://github.com/user-attachments/assets/848bd217-6121-4f68-8bf8-b7473c4f4c0b)
+
+docker image ls
+
+![image](https://github.com/user-attachments/assets/759a988f-2457-49ae-97e0-5c521bf13828)
+
+docker image tag <IMAGE_ID> ourfiglet
+
+![image](https://github.com/user-attachments/assets/a98281e0-4c4f-4d7d-9366-4a887eb050e0)
+
+docker image ls
+
+![image](https://github.com/user-attachments/assets/800bf035-3fd8-42c1-879d-e9017eab8591)
+
+docker container run ourfiglet figlet hello
+
+![image](https://github.com/user-attachments/assets/3d50cda2-f007-4536-a201-043e87320ed2)
+
+Image creation using a Dockerfile
+
+![image](https://github.com/user-attachments/assets/26733f89-13f9-478e-8bfa-8e804c653573)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
