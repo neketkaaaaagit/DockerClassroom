@@ -221,6 +221,11 @@ docker stack services voting_stack
 
 ![image](https://github.com/user-attachments/assets/a5771f6e-8758-41b4-94fb-6bb1eb542a7f)
 
+Docker Enterprise Edition
+
+![image](https://github.com/user-attachments/assets/15a7f26e-d5f2-4003-a6bf-4a8c80ef9793)
+
+
 
 
 
