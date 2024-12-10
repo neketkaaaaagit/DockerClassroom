@@ -123,6 +123,66 @@ Image creation using a Dockerfile
 
 ![image](https://github.com/user-attachments/assets/26733f89-13f9-478e-8bfa-8e804c653573)
 
+FROM alpine
+RUN apk update && apk add nodejs
+COPY . /app
+WORKDIR /app
+CMD ["node","index.js"]
+
+docker image build -t hello:v0.1 .
+
+![image](https://github.com/user-attachments/assets/21f5fc58-a234-4796-8901-e3995bf049df)
+
+docker container run hello:v0.1
+
+![image](https://github.com/user-attachments/assets/7032afb1-ce1e-4958-a0d5-1b5c156ceac0)
+
+Image layers
+
+docker image ls
+
+![image](https://github.com/user-attachments/assets/0628a12c-0a0f-40ac-a8cb-41c2888f9be8)
+
+docker image history <image ID>
+
+![image](https://github.com/user-attachments/assets/1fe61f8b-8f90-44f8-9281-4b6537edbb8e)
+
+echo "console.log(\"this is v0.2\");" >> index.js
+
+![image](https://github.com/user-attachments/assets/8dba8ce4-86d2-4860-bddd-8e5502bb4984)
+
+docker image build -t hello:v0.2 .
+
+![image](https://github.com/user-attachments/assets/8965b8e3-3b35-4eb8-b908-28c79f509237)
+
+docker image pull alpine
+
+![image](https://github.com/user-attachments/assets/99411860-f27b-4baa-a32e-9929a6c53eef)
+
+docker image inspect alpine
+
+![image](https://github.com/user-attachments/assets/32d1316e-2bd4-46c9-a3a7-96638138a033)
+
+docker image inspect --format "{{ json .RootFS.Layers }}" alpine
+
+![image](https://github.com/user-attachments/assets/19af7dd0-e3e2-436f-9773-3148a89bf763)
+
+docker image inspect --format "{{ json .RootFS.Layers }}" <image ID>
+
+![image](https://github.com/user-attachments/assets/5f042053-7f47-4d69-a2b0-12d7ad9f0b9f)
+
+Swarm Mode Introduction for IT Pros
+
+
+
+
+
+
+
+
+
+
+
 
 
 
