@@ -31,6 +31,52 @@ docker container run -it alpine /bin/sh
  
 ![image](https://github.com/user-attachments/assets/f2423820-9c45-4f96-88e6-745412978653)
 
+docker container ls
+
+![image](https://github.com/user-attachments/assets/89883ca1-9fc0-4e7f-8bae-1d90f6d32806)
+
+docker container ls -a
+
+![image](https://github.com/user-attachments/assets/f0b1bdcb-d514-4c26-b55d-123faa06001a)
+
+1.2 Container Isolation
+
+docker container run -it alpine /bin/ash
+
+ echo "hello world" > hello.txt
+
+ ls
+
+![image](https://github.com/user-attachments/assets/d6e7f970-ef3a-4cc9-9348-f9ceba2a47e5)
+
+docker container run alpine ls
+
+![image](https://github.com/user-attachments/assets/df329bc1-a65a-4e3c-b2d4-40ba4a5d94b0)
+
+
+docker container ls -a
+
+![image](https://github.com/user-attachments/assets/3327d395-dd30-4bcc-b09a-2256afe0920e)
+
+docker container start <container ID>
+
+![image](https://github.com/user-attachments/assets/3096af29-0b5a-4d27-b977-08cd185b128a)
+
+docker container ls
+
+![image](https://github.com/user-attachments/assets/d07dceaa-b1ff-4304-b12d-f811634e697b)
+
+docker container exec <container ID> ls
+
+![image](https://github.com/user-attachments/assets/a4542a4b-67b0-46d9-9b4e-407ccd21ca3a)
+
+
+
+
+
+
+
+
 
 
 
