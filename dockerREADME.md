@@ -173,6 +173,60 @@ docker image inspect --format "{{ json .RootFS.Layers }}" <image ID>
 
 Swarm Mode Introduction for IT Pros
 
+Initialize Your Swarm
+
+docker swarm init --advertise-addr $(hostname -i)
+
+![image](https://github.com/user-attachments/assets/147784f6-ab5a-4b51-a1dc-9baaae5351d0)
+
+docker node ls
+
+![image](https://github.com/user-attachments/assets/3e43c780-a226-4e3f-ae54-9b84a665ed55)
+
+git clone https://github.com/docker/example-voting-app
+
+![image](https://github.com/user-attachments/assets/bccadf47-a615-4ca7-8c77-af0f728e2741)
+
+cd example-voting-app
+
+![image](https://github.com/user-attachments/assets/07d94d49-16bd-49f4-ae5d-b5026a075b2a)
+
+cat docker-stack.yml
+
+![image](https://github.com/user-attachments/assets/fefe12a6-73ed-4cd4-8d43-85a724c95fa6)
+
+docker stack deploy --compose-file=docker-stack.yml voting_stack
+
+![image](https://github.com/user-attachments/assets/8a8581c5-9cad-4184-9b16-06e12c548e83)
+
+docker stack ls
+
+![image](https://github.com/user-attachments/assets/c229e71c-bc35-4c60-a013-588b5326a68a)
+
+docker stack services voting_stack
+
+![image](https://github.com/user-attachments/assets/7fb7c6d7-4c1f-4906-bf29-e06d2d0ee9fd)
+
+docker service ps voting_stack_vote
+
+![image](https://github.com/user-attachments/assets/53b3a03d-2213-4acd-9179-22fd9cb99cdc)
+
+Scaling An Application
+
+docker service scale voting_stack_vote=5
+
+![image](https://github.com/user-attachments/assets/4903f5f8-07dd-4e47-bd1f-f74de9ebbe3a)
+
+docker stack services voting_stack
+
+![image](https://github.com/user-attachments/assets/a5771f6e-8758-41b4-94fb-6bb1eb542a7f)
+
+
+
+
+
+
+
 
 
 
