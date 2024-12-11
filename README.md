@@ -1,4 +1,4 @@
-# DockerClassroom
+![image](https://github.com/user-attachments/assets/33d55dfc-933a-432e-8b89-a1761ba38bf3)![image](https://github.com/user-attachments/assets/b1dd7593-8f1a-41cd-831f-b777477b1ea6)# DockerClassroom
 First Alpine Linux Containers
 1.0 Running your first container
 docker container run hello-world
@@ -461,6 +461,288 @@ docker swarm init --advertise-addr $(hostname -i)
 docker node ls
 
 ![image](https://github.com/user-attachments/assets/99412534-7699-4f67-82ae-a112344a7d20)
+
+Step 2: Create an overlay network
+
+docker network create -d overlay overnet
+
+![image](https://github.com/user-attachments/assets/27d7f329-1400-492e-9d70-a6030fe207d6)
+
+docker network ls
+
+![image](https://github.com/user-attachments/assets/d4379efe-1867-4cf7-bcf2-ce84b086e576)
+
+docker network ls first terminal
+
+![image](https://github.com/user-attachments/assets/ce9eea1a-9aa9-4fb2-8193-322794eee9bc)
+
+docker network inspect overnet
+
+![image](https://github.com/user-attachments/assets/2a7c3237-542c-4d55-86f4-ab5fcad26172)
+
+Step 3: Create a service
+
+docker service create --name myservice \
+--network overnet \
+--replicas 2 \
+ubuntu sleep infinity
+
+![image](https://github.com/user-attachments/assets/21efea73-b20e-44c2-a6d1-4d8dcbb0ae46)
+
+docker service ls
+
+![image](https://github.com/user-attachments/assets/8ff5237a-96a9-437f-b816-cb5147651d52)
+
+docker service ps myservice
+
+![image](https://github.com/user-attachments/assets/778babec-93e8-4313-aa56-cd5e3dd75f97)
+
+docker network ls
+
+![image](https://github.com/user-attachments/assets/c1f4eada-ac9b-47ca-b855-ef9717e869a8)
+
+docker network inspect overnet
+
+![image](https://github.com/user-attachments/assets/da622afe-6502-4313-b4f3-1ed8fa0849fb)
+
+![image](https://github.com/user-attachments/assets/8f44097b-b1ac-4623-900d-d2779c571f4d)
+
+Step 4: Test the network
+
+docker network inspect overnet
+
+![image](https://github.com/user-attachments/assets/aff6d2b1-2f43-43db-aa83-6a9c2d2f905a)
+
+docker ps (node 2)
+
+![image](https://github.com/user-attachments/assets/45a578cd-c932-4127-b50f-ff081e79610b)
+
+docker exec -it yourcontainerid /bin/bash
+
+![image](https://github.com/user-attachments/assets/24fcac85-6ab9-45da-b1e8-43d9689e35d3)
+
+apt-get update && apt-get install -y iputils-ping
+
+![image](https://github.com/user-attachments/assets/b064f93b-9efc-4af9-96d2-0e8605d502fe)
+
+ping -c5 10.0.1.3
+
+![image](https://github.com/user-attachments/assets/bbf3a6c1-de5b-4ea1-84b0-1e06fafd200e)
+
+Step 5: Test service discovery
+
+cat /etc/resolv.conf
+
+![image](https://github.com/user-attachments/assets/7f382d06-70ae-44fb-9094-ba49c501f7a4)
+
+docker service inspect myservice
+
+![image](https://github.com/user-attachments/assets/cab00df9-8ccb-4e78-b0a9-17d7ff794140)
+
+Cleaning Up
+
+docker service rm myservice
+
+![image](https://github.com/user-attachments/assets/d9da56f5-6cb9-4537-bb48-28378731bbc2)
+
+docker kill containerid
+
+![image](https://github.com/user-attachments/assets/7fb134e7-cacc-48e3-be3c-d871a7c20b08)
+
+docker swarm leave --force
+
+![image](https://github.com/user-attachments/assets/cec3ce02-4617-4afb-9583-9cfbb1df8bab)
+
+Docker Orchestration Hands-on Lab
+
+Section 2: Configure Swarm Mode
+
+docker run -dt ubuntu sleep infinity
+
+![image](https://github.com/user-attachments/assets/164648cc-ff78-431d-a6c1-d47f431d6f53)
+
+docker ps
+
+![image](https://github.com/user-attachments/assets/b7f75ca0-ad8a-4073-830d-2ee518a66d4a)
+
+Step 2.1 - Create a Manager node
+
+![image](https://github.com/user-attachments/assets/785308a9-8a1d-4924-b56a-9907f22d0338)
+
+docker info
+
+![image](https://github.com/user-attachments/assets/f76d36f5-a240-44a3-8e54-cade12065068)
+
+docker swarm join --token SWMTKN-1-69xqv570xuqhn7trxnjb4yzl2l8arsrvk1e7zk6tvwc8im4ive-6hx702rnq9cfi4queec69lfy8 192.168.0.8:2377
+
+![image](https://github.com/user-attachments/assets/cece26c7-fe87-4a10-bc0e-9983461c4ba4)
+
+docker node ls
+
+![image](https://github.com/user-attachments/assets/e1d1f044-66be-4ebe-bad3-f05c5bb50b69)
+
+Section 3: Deploy applications across multiple hosts
+
+Step 3.1 - Deploy the application components as Docker services
+
+docker service create --name sleep-app ubuntu sleep infinity
+
+![image](https://github.com/user-attachments/assets/c0517f31-e2c5-49e9-a503-d897c091656a)
+
+iltwywlji6c3qp4el6d49phz3
+
+docker service ls
+
+![image](https://github.com/user-attachments/assets/cbb828a8-e4bd-4882-a423-6da4b1c2a36a)
+
+Section 4: Scale the application
+
+docker service update --replicas 7 sleep-app
+
+![image](https://github.com/user-attachments/assets/2cc02983-cc94-4bc8-a95f-db6783759c77)
+
+docker service ps sleep-app
+
+![image](https://github.com/user-attachments/assets/02af4e2a-254a-49ef-99ce-ca96be92ffa9)
+
+docker service update --replicas 4 sleep-app
+
+![image](https://github.com/user-attachments/assets/64fbcc88-66f8-4607-a443-d324e4365b47)
+
+docker service ps sleep-app
+
+![image](https://github.com/user-attachments/assets/c429f667-ef59-47f7-a58d-d52d0e288e0b)
+
+Section 5: Drain a node and reschedule the containers
+
+docker node ls
+
+![image](https://github.com/user-attachments/assets/60e7c403-e345-4700-b304-2d7b88115f64)
+
+docker ps (node 2)
+
+![image](https://github.com/user-attachments/assets/467a5267-6ffd-4e36-9045-2c2230a72cd9)
+
+
+docker node ls
+
+![image](https://github.com/user-attachments/assets/c9daa6f3-07ef-4635-bbc2-afddb6259b42)
+
+docker node update --availability drain yournodeid
+
+![image](https://github.com/user-attachments/assets/c512cd5e-5bca-4f40-b633-5ee3737ed44c)
+
+docker node ls (node - drain)
+
+![image](https://github.com/user-attachments/assets/bdd5684e-6a7a-4998-b310-a132ba60649e)
+
+docker ps (node 2)
+
+![image](https://github.com/user-attachments/assets/e349b17e-11f9-47dd-8afb-c41dc3f4ea86)
+
+docker service ps sleep-app
+
+![image](https://github.com/user-attachments/assets/f367f12e-eb47-433e-8593-6a88fe51ef7a)
+
+Cleaning Up
+
+docker kill yourcontainerid
+
+![image](https://github.com/user-attachments/assets/28b00bb1-5484-42b2-aa9f-32f151a92db1)
+
+docker swarm leave --force
+
+![image](https://github.com/user-attachments/assets/ff1d607b-b59d-45e8-974b-aa47a25700ac)
+
+Docker for IT Pros and System Administrators Stage 3
+
+Docker EE DDC Implementation Considerations
+
+![image](https://github.com/user-attachments/assets/bd9c59a6-3454-413a-917d-730e8f1b4a23)
+
+Service Discovery and Load Balancing with Docker Universal Control Plane
+
+![image](https://github.com/user-attachments/assets/3ce718b9-aaf9-44ee-836f-53ff57918135)
+
+An Introduction to Storage Solutions for Docker CaaS
+
+Docker Reference Architecture: Designing Scalable, Portable Docker Container Networks
+
+Docker Reference Architecture: Securing Docker EE and Security Best Practices
+
+Docker Reference Architecture: Docker EE Best Practices and Design Considerations
+
+Docker Reference Architecture: Development Pipeline Best Practices Using Docker EE
+
+![image](https://github.com/user-attachments/assets/143ed9f5-0325-4970-ad9f-7c462845fa09)
+
+Download Docker
+
+![image](https://github.com/user-attachments/assets/a875b278-08a2-44d5-a29d-6266b7191d4c)
+
+Stage 3: Moving to Production
+
+Sign up for the Docker Community
+
+https://hub.docker.com/u/neketkaaaaa
+
+![image](https://github.com/user-attachments/assets/85d3a0b2-8b68-4c20-873f-815ee6e1c45b)
+
+Explore the Docker documentation
+
+![image](https://github.com/user-attachments/assets/fa353265-7c59-41f3-8af3-f251bd27c243)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
