@@ -225,6 +225,287 @@ Docker Enterprise Edition
 
 ![image](https://github.com/user-attachments/assets/15a7f26e-d5f2-4003-a6bf-4a8c80ef9793)
 
+Security
+Seccomp profiles
+
+Step 1: Clone the labs GitHub repo
+
+git clone https://github.com/docker/labs
+
+![image](https://github.com/user-attachments/assets/dd881530-cb67-49fd-acd8-eecb3e41aafa)
+
+cd labs/security/seccomp
+
+![image](https://github.com/user-attachments/assets/081891d1-3448-4d8f-9afa-4de7774ad337)
+
+Step 2: Test a seccomp profile
+
+docker run --rm -it --cap-add ALL --security-opt apparmor=unconfined --security-opt seccomp=seccomp-profiles/deny.json alpine sh
+
+![image](https://github.com/user-attachments/assets/f4ba6abb-bf53-4477-a1a1-14c3b0434784)
+
+cat seccomp-profiles/deny.json
+
+![image](https://github.com/user-attachments/assets/df205de0-83c7-45db-8cd1-087be1b46c6f)
+
+Step 3: Run a container with no seccomp profile
+
+docker run --rm -it --security-opt seccomp=unconfined debian:jessie sh
+
+![image](https://github.com/user-attachments/assets/cb17acc5-b129-490f-be3d-f0d217176fa9)
+
+whoami
+
+![image](https://github.com/user-attachments/assets/40e4872c-d546-4f3b-9940-c64d7d405db5)
+
+ unshare --map-root-user --user
+ 
+ whoami
+
+![image](https://github.com/user-attachments/assets/d2594244-a306-4013-9309-ee5a75603f44)
+
+apk add --update strace
+
+![image](https://github.com/user-attachments/assets/6bc15936-0cfa-40cc-bdd9-acc17b8bfc50)
+
+strace -c -f -S name whoami 2>&1 1>/dev/null | tail -n +3 | head -n -2 | awk '{print $(NF)}'
+
+![image](https://github.com/user-attachments/assets/aad2e849-ac4d-4177-a54b-994c62d64fc3)
+
+strace whoami
+
+![image](https://github.com/user-attachments/assets/0949c005-37ec-469b-b328-309bd849205c)
+
+Step 4: Selectively remove syscalls
+
+docker run --rm -it --security-opt seccomp=./seccomp-profiles/default-no-chmod.json alpine sh
+
+![image](https://github.com/user-attachments/assets/5b7745de-65ec-40e4-923a-22a91c07dd3e)
+
+chmod 777 / -v
+
+![image](https://github.com/user-attachments/assets/eabb9485-75f7-4017-b71d-18544c1116f7)
+
+exit
+
+![image](https://github.com/user-attachments/assets/b5d326b4-a84c-43f1-8782-c527cf2828d7)
+
+docker run --rm -it --security-opt seccomp=./seccomp-profiles/default.json alpine sh
+
+![image](https://github.com/user-attachments/assets/eee894ce-c2b6-4bf5-9244-42c0bad2230e)
+
+chmod 777 / -v
+
+![image](https://github.com/user-attachments/assets/1fb9d349-e022-4b35-baef-f60b992957d1)
+
+exit
+
+cat ./seccomp-profiles/default.json | grep chmod
+
+![image](https://github.com/user-attachments/assets/16e7f5ad-89e2-4b51-aefe-0e9e0e41ff13)
+
+cat ./seccomp-profiles/default-no-chmod.json | grep chmod
+
+![image](https://github.com/user-attachments/assets/ff439d82-94b7-4121-bff1-b7ba7dbbf6a9)
+
+Step 5: Write a seccomp profile
+
+![image](https://github.com/user-attachments/assets/714e363b-266c-4efd-ac87-36f1ac74fd18)
+
+Security Lab: Capabilities
+
+Step 1: Introduction to capabilities
+
+Step 2: Working with Docker and capabilities
+
+![image](https://github.com/user-attachments/assets/c6e5645c-2aaf-4d90-98de-d8fd2370bf33)
+
+![image](https://github.com/user-attachments/assets/694549e3-715f-4aad-b79f-a34625757b78)
+
+ docker run --rm -it alpine chown nobody /
+
+ ![image](https://github.com/user-attachments/assets/e9284990-09f8-4ec7-a07d-8749701afd3c)
+
+ docker run --rm -it --cap-drop ALL --cap-add CHOWN alpine chown nobody /
+
+ ![image](https://github.com/user-attachments/assets/efaf4d89-beac-41ea-8599-67e4b7042037)
+
+docker run --rm -it --cap-drop CHOWN alpine chown nobody /
+
+ ![image](https://github.com/user-attachments/assets/d6e8a2fb-d289-448b-9242-8c22d8c9193a)
+
+ docker run --rm -it --cap-add chown -u nobody alpine chown nobody /
+
+ ![image](https://github.com/user-attachments/assets/738f4ebb-d673-4bb4-88a6-bdf9aa5e4678)
+
+ Step 4: Extra for experts
+
+ docker run --rm -it alpine sh -c 'apk add -U libcap; capsh --print'
+
+ ![image](https://github.com/user-attachments/assets/bbdd8984-9c23-4254-8a5d-fd93cb742712)
+
+ Experimenting with capabilities
+
+ docker run --rm -it alpine sh -c 'apk add -U libcap;capsh --help'
+
+ ![image](https://github.com/user-attachments/assets/af92ef85-8e31-48f6-8fdc-20241eabd505)
+
+Networking
+
+Section #1 - Networking Basics
+
+Step 1: The Docker Network Command
+
+docker network
+
+![image](https://github.com/user-attachments/assets/f3b66de1-f060-440e-ac66-87a55bf9c9fd)
+
+Step 2: List networks
+
+docker network ls
+
+![image](https://github.com/user-attachments/assets/4852dbe8-5c57-459c-9b1e-7287a569240a)
+
+Step 3: Inspect a network
+
+docker network inspect bridge
+
+![image](https://github.com/user-attachments/assets/d4244870-9f1d-41af-a99a-b9bc22557f8c)
+
+Step 4: List network driver plugins
+
+docker info
+
+![image](https://github.com/user-attachments/assets/937fb94e-5af2-4d97-84bf-928d44678809)
+
+Section #2 - Bridge Networking
+
+Step 1: The Basics
+
+docker network ls
+
+![image](https://github.com/user-attachments/assets/7c053ae9-3276-4d11-b8a0-f0c65ef94ac8)
+
+apk update
+
+apk add bridge
+
+![image](https://github.com/user-attachments/assets/b01d3973-ce68-48ee-a3f8-100229b38bfe)
+
+brctl show
+
+![image](https://github.com/user-attachments/assets/eec38c22-16da-4028-9920-c737af9db416)
+
+ip a
+
+![image](https://github.com/user-attachments/assets/958c7cee-5cc3-46a2-b815-20731442a9a9)
+
+Step 2: Connect a container
+
+docker run -dt ubuntu sleep infinity
+
+![image](https://github.com/user-attachments/assets/2f00749c-e940-4181-82ba-e885bcda6975)
+
+docker ps
+
+![image](https://github.com/user-attachments/assets/0bc4adb7-8533-4ed9-be62-df54bc0e2018)
+
+brctl show
+
+![image](https://github.com/user-attachments/assets/a18c3df5-fb54-462f-8322-6c90be16ba7c)
+
+docker network inspect bridge
+
+![image](https://github.com/user-attachments/assets/ec88405c-90c3-4bb1-a763-107d6a3394ca)
+
+Step 3: Test network connectivity
+
+docker exec -it yourcontainerid /bin/bash
+
+![image](https://github.com/user-attachments/assets/649828f8-7082-4817-9596-a542149fa210)
+
+apt-get update && apt-get install -y iputils-ping
+
+![image](https://github.com/user-attachments/assets/dd31525a-de54-44df-9100-192e11fc34f3)
+
+ping -c5 www.github.com
+
+![image](https://github.com/user-attachments/assets/0d21c976-ba28-4b81-a8b3-2d8bb049af34)
+
+docker stop yourcontainerid
+
+![image](https://github.com/user-attachments/assets/bd485305-1e6b-41d5-9c1a-5d056bd483cc)
+
+Step 4: Configure NAT for external connectivity
+
+docker run --name web1 -d -p 8080:80 nginx
+
+![image](https://github.com/user-attachments/assets/d8416c87-3cf4-445e-ac63-893c665f2a96)
+
+docker ps
+
+![image](https://github.com/user-attachments/assets/f7a442aa-738e-4d21-a5e0-7685365bb389)
+
+curl 127.0.0.8080
+
+![image](https://github.com/user-attachments/assets/cb19fe2f-3e0d-4393-b9ba-a3d252be75d8)
+
+Section #3 - Overlay Networking
+
+Step 1: The Basics
+
+docker swarm init --advertise-addr $(hostname -i)
+
+![image](https://github.com/user-attachments/assets/9aa981f3-2b5e-497f-a4b6-01dee2d0c50b)
+
+docker node ls
+
+![image](https://github.com/user-attachments/assets/99412534-7699-4f67-82ae-a112344a7d20)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
