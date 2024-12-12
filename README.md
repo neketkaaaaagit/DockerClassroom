@@ -1055,6 +1055,60 @@ tail -f logs/extraction.log
 
 docker-compose down
 
+Deploying a Multi-Service App in Docker Swarm Mode
+
+Swarm stack introduction
+
+Init your swarm
+
+docker swarm init --advertise-addr $(hostname -i)
+
+docker swarm join --token SWMTKN-1-5b3jo35fo6ow1wpxsa5xpldbrvcy1jjo5hemcc2nebadgumrgr-ddlc72ua2slypp367vitw8g2o 192.168.0.7:2377
+
+
+Show members of swarm
+
+docker node ls
+
+![image](https://github.com/user-attachments/assets/2e2b4b35-9553-45c3-a608-1e3f41861bdf)
+
+Clone the voting-app
+
+![image](https://github.com/user-attachments/assets/9438504e-74a1-45a9-b41b-3081197d4635)
+
+Deploy a stack
+
+docker stack deploy --compose-file=docker-stack.yml voting_stack
+
+docker stack ls
+
+![image](https://github.com/user-attachments/assets/8313a4f6-5b8c-47f3-a2ce-d30abab50801)
+
+docker stack services voting_stack
+
+![image](https://github.com/user-attachments/assets/d5860a6a-4872-4f3f-bb46-db0b5795c8ab)
+
+docker service ps voting_stack_vote
+
+![image](https://github.com/user-attachments/assets/528708e0-83c9-4116-ab02-a6e73954b8d9)
+
+Docker for Developers Stage 2
+
+Java Development: Eclipse
+
+In-container Java Development: Eclipse
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
