@@ -804,6 +804,197 @@ docker container run \
  удалился
 
 
+Task 3: Modify a running website
+
+docker container run \
+ --detach \
+ --publish 80:80 \
+ --name linux_tweet_app \
+ --mount type=bind,source="$(pwd)",target=/usr/share/nginx/html \
+ $DOCKERID/linux_tweet_app:1.0
+
+ ![image](https://github.com/user-attachments/assets/e9e8e17f-fa45-4c79-ac9c-52299735cedb)
+
+ cp index-new.html index.html
+
+ docker rm --force linux_tweet_app
+
+ docker container run \
+ --detach \
+ --publish 80:80 \
+ --name linux_tweet_app \
+ $DOCKERID/linux_tweet_app:1.0
+
+ ![image](https://github.com/user-attachments/assets/430eb7be-cf51-452c-a7d0-21fb4fa9a7e5)
+
+ Update the image
+
+  docker image build --tag $DOCKERID/linux_tweet_app:2.0 .
+
+  docker image ls
+
+ ![image](https://github.com/user-attachments/assets/a7bdf9a7-f7d7-4a99-95e7-125221deb9ea)
+
+ Test the new version
+
+ docker container run \
+ --detach \
+ --publish 80:80 \
+ --name linux_tweet_app \
+ $DOCKERID/linux_tweet_app:2.0
+
+ ![image](https://github.com/user-attachments/assets/5b175bd8-0651-46fe-a8a0-a87a0854ae83)
+
+ docker container run \
+ --detach \
+ --publish 8080:80 \
+ --name old_linux_tweet_app \      *
+ $DOCKERID/linux_tweet_app:1.0
+
+ ![image](https://github.com/user-attachments/assets/b00f9ccd-6c9a-4bf7-b6fd-1938fc8bfc02)
+
+ ![image](https://github.com/user-attachments/assets/b83eeca3-791b-4f0c-a68b-58367d580c46)
+
+ Push your images to Docker Hub
+
+ docker image ls -f reference="$DOCKERID/*"
+
+ ![image](https://github.com/user-attachments/assets/b27b1d1c-a9bd-4163-b572-41649d3be3b9)
+
+ docker login
+
+ ![image](https://github.com/user-attachments/assets/cf9c6ba4-e457-489e-b01d-530b04de4648)
+
+ docker image push $DOCKERID/linux_tweet_app:1.0
+
+ ![image](https://github.com/user-attachments/assets/cc06e815-b525-4329-827e-1a58867145b4)
+
+ docker image push $DOCKERID/linux_tweet_app:2.0
+
+ ![image](https://github.com/user-attachments/assets/7a5401a6-21e7-4a8c-8899-63cbd3a437e4)
+
+ ![image](https://github.com/user-attachments/assets/6404e6a3-6b3c-4fbe-b212-4cd04ebcea87)
+
+ Application Containerization and Microservice Orchestration
+
+ Stage Setup
+
+git clone https://github.com/ibnesayeed/linkextractor.git
+cd linkextractor
+git checkout demo
+
+ ![image](https://github.com/user-attachments/assets/161f484e-fdb0-47b0-9180-aa86bf728a2f)
+
+ Step 0: Basic Link Extractor Script
+
+git checkout step0
+tree
+
+![image](https://github.com/user-attachments/assets/56725936-472d-40c6-94fa-fa410abfbfac)
+
+cat linkextractor.py
+
+![image](https://github.com/user-attachments/assets/063045e8-6d85-466e-b695-0aa4b70aa9de)
+
+./linkextractor.py http://example.com/
+
+![image](https://github.com/user-attachments/assets/378404e7-1010-4c9f-9439-2d5a4ee0bfa4)
+
+ls -l linkextractor.py
+
+![image](https://github.com/user-attachments/assets/f58d0020-05f1-41db-8a56-55009cacbe4c)
+
+Step 1: Containerized Link Extractor Script
+
+git checkout step1
+tree
+
+![image](https://github.com/user-attachments/assets/f2b67f2e-201d-4ccb-96db-276f64c0d018)
+
+cat Dockerfile
+
+![image](https://github.com/user-attachments/assets/23d9fae0-c680-41d9-8ecd-2c66f73a26da)
+
+docker image build -t linkextractor:step1 .
+
+![image](https://github.com/user-attachments/assets/f632afb5-ac1e-4fe5-9539-d3abedc6a9f0)
+
+Через терминал windows 
+
+![image](https://github.com/user-attachments/assets/cc774cd3-0a26-4e84-a9dc-544b888e641e)
+
+docker image ls
+
+![image](https://github.com/user-attachments/assets/7f41199d-fe6e-489c-8d85-d96b1ac82ac3)
+
+cat(type) linkextractor.py
+
+![image](https://github.com/user-attachments/assets/dafb636e-033d-47ca-8b5e-bc272926a3f2)
+
+docker image build -t linkextractor:step2 .
+
+![image](https://github.com/user-attachments/assets/c5ba6aa5-6d4f-45e9-b386-92416fe61999)
+
+docker image ls
+
+![image](https://github.com/user-attachments/assets/dbb65fdf-ddb3-4a96-b771-3b4f962af518)
+
+Step 3: Link Extractor API Service
+
+git checkout step3
+
+tree
+
+type dockerfile
+
+![image](https://github.com/user-attachments/assets/edeeab62-93b5-4c66-a07a-089e85137086)
+
+type main.py
+
+![image](https://github.com/user-attachments/assets/f36df423-8f5f-479f-9bfb-f06146a1ca94)
+
+docker image build -t linkextractor:step3 .
+
+![image](https://github.com/user-attachments/assets/36a68d68-552b-4ce5-9212-ed6e9d70ec60)
+
+docker container run -d -p 5000:5000 --name=linkextractor linkextractor:step3
+
+![image](https://github.com/user-attachments/assets/8579535a-a569-4fad-b6d9-54b68f6c1711)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
