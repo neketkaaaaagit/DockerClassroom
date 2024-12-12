@@ -961,6 +961,115 @@ docker container run -d -p 5000:5000 --name=linkextractor linkextractor:step3
 
 ![image](https://github.com/user-attachments/assets/8579535a-a569-4fad-b6d9-54b68f6c1711)
 
+docker container ls
+
+![image](https://github.com/user-attachments/assets/1ee830bc-d5e4-4ee4-8f15-135773860887)
+
+curl -i http://localhost:5000/api/http://example.com/
+
+![image](https://github.com/user-attachments/assets/8a7d96f6-fa70-473c-802f-2a9b4d9711fc)
+
+docker container logs linkextractor
+
+![image](https://github.com/user-attachments/assets/7b277ca9-2d65-4e68-b469-b8efefb877c3)
+
+docker container rm -f linkextractor
+
+Step 4: Link Extractor API and Web Front End Services
+
+git checkout step4
+
+tree
+
+cat(type) docker-compose.yml
+
+![image](https://github.com/user-attachments/assets/45a98596-dfea-468b-b535-8b2648ab329b)
+
+cat(type) www/index.php
+
+![image](https://github.com/user-attachments/assets/841ec3b4-d85e-4eaf-a00e-8b4d8dc462df)
+
+docker-compose up -d --build
+
+![image](https://github.com/user-attachments/assets/8149efd6-c600-44f0-83d2-8caa524132e6)
+
+docker container ls
+
+curl -i http://localhost:5000/api/http://example.com/
+
+sed -i 's/Link Extractor/Super Link Extractor/g' www/index.php
+
+git reset --hard
+
+docker-compose down
+
+![image](https://github.com/user-attachments/assets/dc0059d2-ac4c-40be-8584-1281ffa6bf35)
+
+Step 5: Redis Service for Caching
+
+git checkout step5
+
+tree
+
+cat www/Dockerfile
+
+![image](https://github.com/user-attachments/assets/385ba3d4-ca1a-4731-b2a1-20121c56149b)
+
+cat api/main.py
+
+![image](https://github.com/user-attachments/assets/7e047ff0-c4c7-4164-b2a1-745723c23585)
+
+cat docker-compose.yml
+
+docker-compose up -d --build
+
+docker-compose exec redis redis-cli monitor
+
+sed -i 's/Link Extractor/Super Link Extractor/g' www/index.php
+
+git reset --hard
+
+docker-compose down
+
+Step 6: Swap Python API Service with Ruby
+
+git checkout step6
+
+tree
+
+cat api/linkextractor.rb
+
+![image](https://github.com/user-attachments/assets/a5c40416-0644-471e-bfe5-ef3262a338fc)
+
+cat api/Dockerfile
+
+![image](https://github.com/user-attachments/assets/c2cb2f4b-0ef8-4fdb-bfdf-88e9ce2ca670)
+
+cat docker-compose.yml
+
+docker-compose up -d --build
+
+curl -i http://localhost:4567/api/http://example.com/
+
+tail -f logs/extraction.log
+
+docker-compose down
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
