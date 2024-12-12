@@ -694,6 +694,140 @@ Explore the Docker documentation
 
 
 
+Getting Started Walk-through for Developers
+Stage 1: The Basics
+
+Self-guided in-browser tutorials
+Docker for Beginners - Linux
+
+git clone https://github.com/dockersamples/linux_tweet_app
+
+![image](https://github.com/user-attachments/assets/e8d9242e-d393-4827-8982-370d4703233e)
+
+docker container run alpine hostname
+
+![image](https://github.com/user-attachments/assets/d7a0f6bc-d13f-4a8a-8923-094aa7f11f42)
+
+docker container ls --all
+
+![image](https://github.com/user-attachments/assets/79dd178f-cd0f-430f-908d-1ce354df8158)
+
+ docker container run --interactive --tty --rm ubuntu bash
+
+![image](https://github.com/user-attachments/assets/90ceca27-1309-4935-aaed-9af70c56771a)
+
+ls / 
+
+![image](https://github.com/user-attachments/assets/d314ad4b-5e9b-4fa0-a5f0-aeba0c198fec)
+
+ps aux
+
+![image](https://github.com/user-attachments/assets/028af03e-749f-4754-b2ff-daa5bf006c0b)
+
+cat /etc/issue
+
+![image](https://github.com/user-attachments/assets/9e022d74-ac3d-4b75-be4c-77ff59eacffb)
+
+exit 
+
+cat /etc/issue
+
+![image](https://github.com/user-attachments/assets/3952e4a8-75bb-4a1e-8522-992795818eb8)
+
+MYSQL Container
+
+ docker container run \
+ --detach \
+ --name mydb \
+ -e MYSQL_ROOT_PASSWORD=my-secret-pw \
+ mysql:latest
+
+ ![image](https://github.com/user-attachments/assets/defd0eb4-ad00-4ac8-b7ed-9583f37863e3)
+
+ docker container ls
+
+ ![image](https://github.com/user-attachments/assets/3e910b2a-4daa-459b-9097-b236b412d737)
+
+ docker container logs mydb
+
+ ![image](https://github.com/user-attachments/assets/62679c87-3142-4084-95ea-2605010b123b)
+
+ docker container top mydb
+ 
+ ![image](https://github.com/user-attachments/assets/bb3c23be-6db1-4e68-97c1-9759a4f3121f)
+
+docker exec -it mydb \
+mysql --user=root --password=$MYSQL_ROOT_PASSWORD --version
+
+ ![image](https://github.com/user-attachments/assets/17915a1d-8eca-4253-9e28-dc0ab672161c)
+
+ docker exec -it mydb sh
+
+ ![image](https://github.com/user-attachments/assets/94535224-1e46-4285-872e-6a2895260a69)
+
+ mysql --user=root --password=$MYSQL_ROOT_PASSWORD --version
+
+ exit
+
+![image](https://github.com/user-attachments/assets/c29491c1-0af8-4ebd-8e44-0df35cbb9d1b)
+
+Task 2: Package and run a custom app using Docker
+
+cd ~/linux_tweet_app
+
+cat Dockerfile
+
+![image](https://github.com/user-attachments/assets/e2218cf2-4ab5-4055-9900-a08e15c242af)
+
+export DOCKERID=neketkaaaaa
+
+echo $DOCKERID
+
+docker image build --tag $DOCKERID/linux_tweet_app:1.0 .
+
+![image](https://github.com/user-attachments/assets/a3994c78-b43a-49ca-bd2e-c68e983b6e2a)
+
+docker container run \
+ --detach \
+ --publish 80:80 \
+ --name linux_tweet_app \
+ $DOCKERID/linux_tweet_app:1.0
+
+ ![image](https://github.com/user-attachments/assets/a9905cbb-05ca-4859-a1d6-9b218f589262)
+
+ ![image](https://github.com/user-attachments/assets/48ac3260-a195-43db-b0be-512bfb8d6b2c)
+
+ docker container rm --force linux_tweet_app
+
+ ![image](https://github.com/user-attachments/assets/a20bb079-2f5a-44bb-9954-658d929bdf5a)
+
+ удалился
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
